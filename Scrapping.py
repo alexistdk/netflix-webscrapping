@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 
 class Scrapping:
@@ -10,6 +11,8 @@ class Scrapping:
                      "52780", "10375", "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
                      "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
 
+    links = []
+
     @staticmethod
     def netflix(id_categoria): return "https://www.netflix.com/browse/genre/" + id_categoria
 
@@ -19,11 +22,13 @@ class Scrapping:
     @classmethod
     def get_script(cls):
         lista_categorias = list(cls.id_categorias)
-        netflix = cls.requests_get(cls.netflix(lista_categorias[0]))
+        netflix = cls.requests_get(cls.netflix(lista_categorias[10]))
         src = netflix.content
         soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
         scripts = soup.find_all("script")  # busca todos los scripts
         cls.escribir_archivo(scripts)
+        cls.obtener_links()
+        print(cls.links)
 
     @classmethod
     def escribir_archivo(cls, scripts):
@@ -37,3 +42,10 @@ class Scrapping:
         with open("script") as old, open("script.txt", "w") as new:
             lines = old.readlines()
             new.writelines(lines[0])
+
+    @classmethod
+    def obtener_links(cls):
+        with open("script.txt", "r") as f:
+            lines = f.readlines()
+            links_contenidos = re.findall(r'https://www.netflix.com/ar-en/title/[0-9]{8}', lines[0])
+            cls.links.append(links_contenidos)
