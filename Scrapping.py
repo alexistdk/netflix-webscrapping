@@ -5,9 +5,9 @@ import re
 
 class Scrapping:
 
-    series = {"10673", "6721", "69616", "78103", "52117", "1372", "52780", "10375",
-              "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
-              "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
+    generos_series = {"10673", "6721", "69616", "78103", "52117", "1372", "52780", "10375",
+                      "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
+                      "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
 
     links = []
 
@@ -19,8 +19,7 @@ class Scrapping:
 
     @classmethod
     def start_scrapping(cls, url):
-        lista_categorias = list(url)
-        netflix = cls.requests_get(cls.netflix(url))
+        netflix = cls.requests_get(url)
         src = netflix.content
         soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
         scripts = soup.find_all("script")  # busca todos los scripts
@@ -60,6 +59,18 @@ class Scrapping:
     @staticmethod
     def get_year(url):
         netflix = requests.get(url)
-        src = netflix.content
         soup = BeautifulSoup(netflix.text, 'html.parser')
         return soup.find_all('span')[2].string
+
+    @staticmethod
+    def get_category(url):
+        netflix = requests.get(url)
+        soup = BeautifulSoup(netflix.text, 'html.parser')
+        return soup.find('h1').string
+
+    @staticmethod
+    def get_sinopsis(url):
+        netflix = requests.get(url)
+        soup = BeautifulSoup(netflix.text, 'html.parser')
+        sinopsis = soup.find('div', class_='title-info-synopsis')
+        return sinopsis.text
