@@ -21,7 +21,7 @@ class Pelicula(Scrapping):
     @staticmethod
     def escribe_header():
         with open("peliculas.csv", mode='a') as f:
-            campos = ['Nombre', 'Estreno', 'ID', 'Categoria', 'Link']
+            campos = ['Nombre', 'Estreno', 'ID', 'Categoria', 'Sinopsis', 'Link']
             writer = csv.DictWriter(f, fieldnames=campos)
             writer.writeheader()
             f.close()
@@ -31,12 +31,13 @@ class Pelicula(Scrapping):
         cls.escribe_header()
         for link in cls.links[0]:
             with open("peliculas.csv", mode='a') as f:
-                campos = ['Nombre', 'Estreno', 'ID', 'Categoria', 'Link']
+                campos = ['Nombre', 'Estreno', 'ID', 'Categoria', 'Sinopsis', 'Link']
                 writer = csv.DictWriter(f, fieldnames=campos)
                 writer.writerow({
                     'Nombre': cls.get_title(link),
                     'Estreno': cls.get_year(link),
                     'ID': cls.get_id(link),
                     'Categoria': cls.genero,
+                    'Sinopsis': cls.get_sinopsis(link),
                     'Link': link
                 })
