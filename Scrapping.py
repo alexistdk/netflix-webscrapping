@@ -9,7 +9,7 @@ class Scrapping:
                       "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
                       "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
 
-    links = []
+    links = [["https://www.netflix.com/ar/title/60010110"]]
 
     @staticmethod
     def netflix(id_categoria): return "https://www.netflix.com/browse/genre/" + id_categoria
@@ -54,16 +54,17 @@ class Scrapping:
     def get_title(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
-        return soup.find('h1').text
+        return soup.find('h1').string
 
     @staticmethod
     def get_year(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
-        return soup.find_all('span')[2].string
+        estreno = soup.find('span', class_="title-info-metadata-item item-year").string
+        return estreno
 
     @staticmethod
-    def get_category(url):
+    def get_genre(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
         return soup.find('h1').string
@@ -73,4 +74,11 @@ class Scrapping:
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
         sinopsis = soup.find('div', class_='title-info-synopsis')
-        return sinopsis.text
+        return sinopsis.string
+
+    @staticmethod
+    def get_maturiy(url):
+        netflix = requests.get(url)
+        soup = BeautifulSoup(netflix.text, 'lxml')
+        maturity = soup.find('span', class_="maturity-number")
+        return maturity.string.split(' ')[0]
