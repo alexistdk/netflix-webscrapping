@@ -9,7 +9,7 @@ class Scrapping:
                       "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
                       "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
 
-    links = [["https://www.netflix.com/ar/title/60010110"]]
+    links = []
 
     @staticmethod
     def netflix(id_categoria): return "https://www.netflix.com/browse/genre/" + id_categoria
