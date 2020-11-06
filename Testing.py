@@ -1,5 +1,5 @@
 from unittest import TestCase
-from Scrapping import *
+from Pelicula import *
 
 
 class MyTestCase(TestCase):
@@ -29,15 +29,24 @@ class MyTestCase(TestCase):
         self.assertEqual("80170278", id_pelicula)
 
     def test_categoria_pelicula(self):
-        categoria = Scrapping.get_category("https://www.netflix.com/browse/genre/2595")
-        self.assertEqual("Science & Nature Docs", categoria)
+        Pelicula.set_genero("https://www.netflix.com/browse/genre/2595")
+        self.assertEqual("Science & Nature Docs", Pelicula.genero)
 
     def test_categoria_serie(self):
-        categoria = Scrapping.get_category("https://www.netflix.com/browse/genre/27346")
-        self.assertEqual("Kids TV Shows", categoria)
+        Pelicula.set_genero("https://www.netflix.com/browse/genre/6721")
+        self.assertEqual("Anime Series", Pelicula.genero)
 
     def test_sinopsis_back_to_the_future(self):
         sinopsis_scrappeada = Scrapping.get_sinopsis("https://www.netflix.com/title/60010110")
         sinopsis = "After he accidentally drives a DeLorean time machine from 1985 to 1955, " \
                    "Marty McFly races the clock to ensure his future parents fall in love."
         self.assertEqual(sinopsis, sinopsis_scrappeada)
+
+    def test_maturity_back_to_the_future(self):
+        self.assertEqual("13+", Scrapping.get_maturiy("https://www.netflix.com/title/60010110"))
+
+    def test_madurity_documental_1(self):
+        self.assertEqual("13+", Scrapping.get_maturiy("https://www.netflix.com/title/81254224"))
+
+    def test_madurity_documental_2(self):
+        self.assertEqual("16+", Scrapping.get_maturiy("https://www.netflix.com/title/80182553"))
