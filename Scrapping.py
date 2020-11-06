@@ -22,12 +22,13 @@ class Scrapping:
     @classmethod
     def get_script(cls):
         lista_categorias = list(cls.id_categorias)
-        netflix = cls.requests_get(cls.netflix(lista_categorias[10]))
-        src = netflix.content
-        soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
-        scripts = soup.find_all("script")  # busca todos los scripts
-        cls.escribir_archivo(scripts)
-        cls.obtener_links()
+        for categoria in range(len(cls.id_categorias)):
+            netflix = cls.requests_get(cls.netflix(lista_categorias[categoria]))
+            src = netflix.content
+            soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
+            scripts = soup.find_all("script")  # busca todos los scripts
+            cls.escribir_archivo(scripts)
+            cls.obtener_links()
         print(cls.links)
 
     @classmethod
@@ -49,3 +50,13 @@ class Scrapping:
             lines = f.readlines()
             links_contenidos = re.findall(r'https://www.netflix.com/ar-en/title/[0-9]{8}', lines[0])
             cls.links.append(links_contenidos)
+
+    @staticmethod
+    def get_id(url):
+        print(re.findall("\d+", url))
+
+    @staticmethod
+    def get_title(url):
+        netflix = requests.get(url)
+        soup = BeautifulSoup(netflix.text, 'html.parser')
+        print(soup.find('h1').text)
