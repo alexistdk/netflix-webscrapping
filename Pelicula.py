@@ -8,29 +8,35 @@ class Pelicula(Scrapping):
                          "4370", "2243108", "5763", "9744", "26835", "81268388", "7077", "783",
                          "78367", "3979", "52852", "81346420", "7723", "75436", "8883", "8711", "8933"}
 
-    peliculas = {}
+    genero = ""
 
     @classmethod
     def scrap_movies(cls):
-        peliculas = map(cls.start_scrapping, cls.generos_peliculas)
-        return list(peliculas)
+        cls.start_scrapping("https://www.netflix.com/browse/genre/2595")
 
     @classmethod
-    def listar_peliculas(cls):
-        lista_aux = []
-        for peliculas in cls.scrap_movies():
-            for pelicula in peliculas:
-                lista_aux.append(pelicula)
-        cls.peliculas.update(lista_aux)
+    def set_genero(cls, url):
+        cls.genero = cls.get_category(url)
 
-    @classmethod
-    def csv_peliculas(cls, url):
+    @staticmethod
+    def escribe_header():
         with open("peliculas.csv", mode='a') as f:
-            campos = ['Nombre', 'Estreno', 'ID', 'Link']
+            campos = ['Nombre', 'Estreno', 'ID', 'Categoria', 'Link']
             writer = csv.DictWriter(f, fieldnames=campos)
-            writer.writerow({
-                'Nombre': cls.get_title(url),
-                'Estreno': cls.get_year(url),
-                'ID': cls.get_id(url),
-                'Link': url,
-            })
+            writer.writeheader()
+            f.close()
+
+    @classmethod
+    def csv_peliculas(cls):
+        cls.escribe_header()
+        for link in cls.links[0]:
+            with open("peliculas.csv", mode='a') as f:
+                campos = ['Nombre', 'Estreno', 'ID', 'Categoria', 'Link']
+                writer = csv.DictWriter(f, fieldnames=campos)
+                writer.writerow({
+                    'Nombre': cls.get_title(link),
+                    'Estreno': cls.get_year(link),
+                    'ID': cls.get_id(link),
+                    'Categoria': cls.genero,
+                    'Link': link
+                })
