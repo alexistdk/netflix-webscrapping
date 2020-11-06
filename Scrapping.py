@@ -5,11 +5,9 @@ import re
 
 class Scrapping:
 
-    id_categorias = {"1365", "3063", "3276033", "2595", "31574", "6548", "6133", "2298875", "4370", "2243108",
-                     "5763", "9744", "26835", "81268388", "7077", "783", "78367", "3979", "52852", "81346420",
-                     "7723", "75436", "8883", "8711", "8933", "10673", "6721", "69616", "78103", "52117", "1372",
-                     "52780", "10375", "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
-                     "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
+    series = {"10673", "6721", "69616", "78103", "52117", "1372", "52780", "10375",
+              "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
+              "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
 
     links = []
 
@@ -20,16 +18,14 @@ class Scrapping:
     def requests_get(url): return requests.get(url)
 
     @classmethod
-    def get_script(cls):
-        lista_categorias = list(cls.id_categorias)
-        for categoria in range(len(cls.id_categorias)):
-            netflix = cls.requests_get(cls.netflix(lista_categorias[categoria]))
-            src = netflix.content
-            soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
-            scripts = soup.find_all("script")  # busca todos los scripts
-            cls.escribir_archivo(scripts)
-            cls.obtener_links()
-        print(cls.links)
+    def start_scrapping(cls, url):
+        lista_categorias = list(url)
+        netflix = cls.requests_get(cls.netflix(url))
+        src = netflix.content
+        soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
+        scripts = soup.find_all("script")  # busca todos los scripts
+        cls.escribir_archivo(scripts)
+        cls.obtener_links()
 
     @classmethod
     def escribir_archivo(cls, scripts):
@@ -53,10 +49,17 @@ class Scrapping:
 
     @staticmethod
     def get_id(url):
-        print(re.findall("\d+", url))
+        return re.findall('\d+', url)[0]
 
     @staticmethod
     def get_title(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
-        print(soup.find('h1').text)
+        return soup.find('h1').text
+
+    @staticmethod
+    def get_year(url):
+        netflix = requests.get(url)
+        src = netflix.content
+        soup = BeautifulSoup(netflix.text, 'html.parser')
+        return soup.find_all('span')[2].string
