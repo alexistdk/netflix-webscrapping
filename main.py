@@ -1,5 +1,10 @@
-from Scrapping import *
+from Pelicula import *
+
+
+def scrappear_pelicuas():
+    Pelicula.scrap_movies()
+    Pelicula.csv_peliculas()
 
 
 if __name__ == "__main__":
-    Scrapping.get_script()
+    scrappear_pelicuas()
