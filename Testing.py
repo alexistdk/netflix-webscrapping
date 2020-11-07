@@ -43,10 +43,10 @@ class MyTestCase(TestCase):
         self.assertEqual(sinopsis, sinopsis_scrappeada)
 
     def test_maturity_back_to_the_future(self):
-        self.assertEqual("13+", Scrapping.get_maturiy("https://www.netflix.com/title/60010110"))
+        self.assertEqual("13+ ", Scrapping.get_maturiy("https://www.netflix.com/title/60010110"))
 
     def test_madurity_documental_1(self):
-        self.assertEqual("13+", Scrapping.get_maturiy("https://www.netflix.com/title/81254224"))
+        self.assertEqual("13+ ", Scrapping.get_maturiy("https://www.netflix.com/title/81254224"))
 
     def test_madurity_documental_2(self):
-        self.assertEqual("16+", Scrapping.get_maturiy("https://www.netflix.com/title/80182553"))
+        self.assertEqual("16+ ", Scrapping.get_maturiy("https://www.netflix.com/title/80182553"))
