@@ -6,17 +6,11 @@ class Pelicula(Scrapping):
 
     generos_peliculas = []
 
-    genero = ""
-
     @classmethod
-    def scrap_movies(cls):
+    def scrapp_movies(cls):
         for genero in cls.generos_peliculas:
             cls.start_scrapping(genero)
             cls.set_genero(genero)
-
-    @classmethod
-    def set_genero(cls, url):
-        cls.genero = cls.get_genre(url)
 
     @staticmethod
     def escribe_header():
@@ -39,7 +33,7 @@ class Pelicula(Scrapping):
                         'Edad mínima': cls.get_maturiy(pelicula),
                         'Estreno': cls.get_year(pelicula),
                         'ID': cls.get_id(pelicula),
-                        'Categoria': cls.genero,
+                        'Categoria': cls.get_genre(pelicula),
                         'Sinopsis': cls.get_sinopsis(pelicula),
                         'Link': "https://netflix.com/title/" + cls.get_id(pelicula)
                     })
