@@ -4,19 +4,15 @@ import csv
 
 class Pelicula(Scrapping):
 
-    generos_peliculas = ["1365", "3063", "3276033", "2595", "31574", "6548", "6133", "2298875",
-                         "4370", "2243108", "5763", "9744", "26835", "81268388", "7077", "783",
-                         "78367", "3979", "52852", "81346420", "7723", "75436", "8883", "8711"]
+    generos_peliculas = []
 
     genero = ""
 
     @classmethod
     def scrap_movies(cls):
         for genero in cls.generos_peliculas:
-            url = "https://www.netflix.com/browse/genre/" + genero
-            cls.start_scrapping(url)
-            cls.set_genero(url)
-            print(url)
+            cls.start_scrapping(genero)
+            cls.set_genero(genero)
 
     @classmethod
     def set_genero(cls, url):

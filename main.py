@@ -1,5 +1,5 @@
 from Pelicula import *
-from Usuario import *
+from Webdriver import *
 
 
 def scrappear_peliculas():
@@ -8,4 +8,5 @@ def scrappear_peliculas():
 
 
 if __name__ == "__main__":
-    Usuario.inicia_sesion()
+    Webdriver.web_driver()
+    scrappear_peliculas()

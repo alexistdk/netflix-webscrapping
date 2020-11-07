@@ -30,9 +30,7 @@ class Webdriver:
 
     @classmethod
     def clickea_generos(cls, driver):
-        driver.find_element_by_xpath(
-            '/html/body/div[1]/div/div/div[1]/div[1]/div[1]/div/div/ul/li[4]/a'  # Sección películas
-        ).click()
+        driver.find_element_by_link_text('Películas').click()
         driver.find_element_by_xpath(
             '/html/body/div[1]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div/div[2]/div[1]/div/div/div/div'
         ).click()  # click en géneros
@@ -44,4 +42,3 @@ class Webdriver:
         for i in range(len(generos)):
             Pelicula.generos_peliculas.append(generos[i].get_attribute('href'))
         driver.close()
-        print(Pelicula.generos_peliculas)
