@@ -1,4 +1,5 @@
 from Pelicula import *
+from Usuario import *
 
 
 def scrappear_peliculas():
@@ -7,4 +8,4 @@ def scrappear_peliculas():
 
 
 if __name__ == "__main__":
-    scrappear_peliculas()
+    Usuario.inicia_sesion()
