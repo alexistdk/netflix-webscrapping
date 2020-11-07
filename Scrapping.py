@@ -5,10 +5,6 @@ import re
 
 class Scrapping:
 
-    generos_series = {"10673", "6721", "69616", "78103", "52117", "1372", "52780", "10375",
-                      "11559", "60951", "72404", "10105", "11714", "812683888", "27346", "67708",
-                      "4366", "81346420", "75392", "2070390", "26156", "10634", "83059", "89811"}
-
     links = []
 
     @staticmethod
@@ -81,4 +77,4 @@ class Scrapping:
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'lxml')
         maturity = soup.find('span', class_="maturity-number")
-        return maturity.string.split(' ')[0]
+        return maturity.string
