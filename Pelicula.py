@@ -30,7 +30,7 @@ class Pelicula(Scrapping):
                     writer = csv.DictWriter(f, fieldnames=campos)
                     writer.writerow({
                         'Nombre': cls.get_title(pelicula),
-                        'Edad mínima': cls.get_maturiy(pelicula),
+                        'Edad mínima': cls.get_maturity(pelicula),
                         'Estreno': cls.get_year(pelicula),
                         'ID': cls.get_id(pelicula),
                         'Categoria': cls.get_genre(pelicula),

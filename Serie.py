@@ -31,7 +31,7 @@ class Serie(Scrapping):
                       'Categoria',
                       'Sinopsis',
                       'Temporadas',
-                      # 'Cantidad de Capitulos'
+                      'Cantidad de Capitulos',
                       # 'Capitulos',
                       'Link'
                       ]
@@ -45,16 +45,19 @@ class Serie(Scrapping):
         for generos in cls.links:
             for serie in generos:
                 with open("series.csv", mode='a') as f:
-                    campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria', 'Sinopsis', 'Temporadas', 'Link']
+                    campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria',
+                              'Sinopsis', 'Temporadas', 'Cantidad de Capitulos', 'Link']
                     writer = csv.DictWriter(f, fieldnames=campos)
                     writer.writerow({
                         'Nombre': cls.get_title(serie),
-                        'Edad mínima': cls.get_maturiy(serie),
+                        'Edad mínima': cls.get_maturity(serie),
                         'Estreno': cls.get_year(serie),
                         'ID': cls.get_id(serie),
                         'Categoria': cls.get_genre(serie),
                         'Sinopsis': cls.get_sinopsis(serie),
-                        'Temporadas': cls.get_cantidad_temporadas(serie)
+                        'Temporadas': cls.get_cantidad_temporadas(serie),
+                        'Cantidad de Capitulos': cls.get_cantidad_episodios(serie),
+                        'Link': "https://netflix.com/title/" + cls.get_id(serie)
                     })
 
     @classmethod
@@ -84,4 +87,4 @@ class Serie(Scrapping):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.content, 'lxml')
         sinopsis = soup.find_all('p', class_="epsiode-synopsis")
-        print(sinopsis[indice].string)
+        return sinopsis[indice].string

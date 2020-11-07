@@ -29,14 +29,6 @@ class MyTestCase(TestCase):
         id_pelicula = Scrapping.get_id("https://www.netflix.com/title/80170278")
         self.assertEqual("80170278", id_pelicula)
 
-    def test_categoria_pelicula(self):
-        self.assertEqual("Películas documentales", Scrapping.get_genre("https://www.netflix.com/ar/title/81064069"))
-
-    def test_categoria_serie(self):
-        self.assertEqual("Documentales sobre ciencia y naturaleza",
-                         Scrapping.get_genre("https://www.netflix.com/ar/title/81012137")
-                         )
-
     def test_sinopsis_back_to_the_future(self):
         sinopsis_scrappeada = Scrapping.get_sinopsis("https://www.netflix.com/title/60010110")
         sinopsis = "After he accidentally drives a DeLorean time machine from 1985 to 1955, " \
@@ -44,13 +36,13 @@ class MyTestCase(TestCase):
         self.assertEqual(sinopsis, sinopsis_scrappeada)
 
     def test_maturity_back_to_the_future(self):
-        self.assertEqual("13+ ", Scrapping.get_maturiy("https://www.netflix.com/title/60010110"))
+        self.assertEqual("13+ ", Scrapping.get_maturity("https://www.netflix.com/title/60010110"))
 
     def test_madurity_documental_1(self):
-        self.assertEqual("13+ ", Scrapping.get_maturiy("https://www.netflix.com/title/81254224"))
+        self.assertEqual("13+ ", Scrapping.get_maturity("https://www.netflix.com/title/81254224"))
 
     def test_madurity_documental_2(self):
-        self.assertEqual("16+ ", Scrapping.get_maturiy("https://www.netflix.com/title/80182553"))
+        self.assertEqual("16+ ", Scrapping.get_maturity("https://www.netflix.com/title/80182553"))
 
     def test_temporadas_community(self):
         self.assertEqual(6, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70155589"))
@@ -83,10 +75,13 @@ class MyTestCase(TestCase):
         self.assertNotEqual(110, Serie.get_cantidad_episodios("https://www.netflix.com/title/70155589"))
 
     def test_1_nombre_episodio_community(self):
-        self.assertEqual("Community", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589"))
+        self.assertEqual("Community", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589", 0))
 
     def test_borrar_numero_episodio(self):
         self.assertEqual("Community", Serie.borrar_numero_del_episodio("1. Community"))
 
-    def test_borrar_numero_episodio(self):
+    def test_borrar_numero_episodio_2(self):
         self.assertEqual("Spanish 101", Serie.borrar_numero_del_episodio("2. Spanish 101"))
+
+    def test_edad_minima_community(self):
+        self.assertEqual("13+ ", Serie.get_maturity("https://www.netflix.com/title/70155589"))

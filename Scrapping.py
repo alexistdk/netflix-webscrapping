@@ -5,7 +5,7 @@ import re
 
 class Scrapping:
 
-    links = []
+    links = [["https://www.netflix.com/title/80177770", "https://www.netflix.com/title/80013775"]]
 
     @classmethod
     def set_genero(cls, url):
@@ -61,7 +61,7 @@ class Scrapping:
     def get_genre(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
-        genero = soup.find('span', class_='more-details-item item-genres')
+        genero = soup.find('span', class_='item-genres')
         return genero.text.split(',')[0]
 
     @staticmethod
@@ -72,7 +72,7 @@ class Scrapping:
         return sinopsis.string
 
     @staticmethod
-    def get_maturiy(url):
+    def get_maturity(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'lxml')
         maturity = soup.find('span', class_="maturity-number")
