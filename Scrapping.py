@@ -7,15 +7,13 @@ class Scrapping:
 
     links = []
 
-    @staticmethod
-    def netflix(id_categoria): return "https://www.netflix.com/browse/genre/" + id_categoria
-
-    @staticmethod
-    def requests_get(url): return requests.get(url)
+    @classmethod
+    def set_genero(cls, url):
+        cls.genero = cls.get_genre(url)
 
     @classmethod
     def start_scrapping(cls, url):
-        netflix = cls.requests_get(url)
+        netflix = requests.get(url)
         src = netflix.content
         soup = BeautifulSoup(src, 'lxml')  # crea el objeto y parsea el codigo
         scripts = soup.find_all("script")  # busca todos los scripts
@@ -56,14 +54,15 @@ class Scrapping:
     def get_year(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
-        estreno = soup.find('span', class_="title-info-metadata-item item-year").string
+        estreno = soup.find('span', class_="item-year").string
         return estreno
 
     @staticmethod
     def get_genre(url):
         netflix = requests.get(url)
         soup = BeautifulSoup(netflix.text, 'html.parser')
-        return soup.find('h1').string
+        genero = soup.find('span', class_='more-details-item item-genres')
+        return genero.text.split(',')[0]
 
     @staticmethod
     def get_sinopsis(url):
