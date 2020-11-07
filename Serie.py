@@ -66,12 +66,12 @@ class Serie(Scrapping):
         return len(cantidad)
 
     @classmethod
-    def get_nombre_episodio(cls, url):
+    def get_nombre_episodio(cls, url, indice):
         netflix = requests.get(url)
         src = netflix.content
         soup = BeautifulSoup(src, 'lxml')
         nombre = soup.find_all('h3', class_="episode-title")
-        return cls.borrar_numero_del_episodio(nombre[0].string)
+        return cls.borrar_numero_del_episodio(nombre[indice].string)
 
     @classmethod
     def borrar_numero_del_episodio(cls, string):
@@ -79,3 +79,9 @@ class Serie(Scrapping):
         nombre.pop(0)
         return ' '.join(nombre)
 
+    @classmethod
+    def get_sinopsis_episodio(cls, url, indice):
+        netflix = requests.get(url)
+        soup = BeautifulSoup(netflix.content, 'lxml')
+        sinopsis = soup.find_all('p', class_="epsiode-synopsis")
+        print(sinopsis[indice].string)
