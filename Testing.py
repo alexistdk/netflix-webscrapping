@@ -1,5 +1,6 @@
 from unittest import TestCase
 from Pelicula import *
+from Serie import *
 
 
 class MyTestCase(TestCase):
@@ -29,12 +30,12 @@ class MyTestCase(TestCase):
         self.assertEqual("80170278", id_pelicula)
 
     def test_categoria_pelicula(self):
-        Pelicula.set_genero("https://www.netflix.com/browse/genre/2595")
-        self.assertEqual("Science & Nature Docs", Pelicula.genero)
+        self.assertEqual("Películas documentales", Scrapping.get_genre("https://www.netflix.com/ar/title/81064069"))
 
     def test_categoria_serie(self):
-        Pelicula.set_genero("https://www.netflix.com/browse/genre/6721")
-        self.assertEqual("Anime Series", Pelicula.genero)
+        self.assertEqual("Documentales sobre ciencia y naturaleza",
+                         Scrapping.get_genre("https://www.netflix.com/ar/title/81012137")
+                         )
 
     def test_sinopsis_back_to_the_future(self):
         sinopsis_scrappeada = Scrapping.get_sinopsis("https://www.netflix.com/title/60010110")
@@ -50,3 +51,42 @@ class MyTestCase(TestCase):
 
     def test_madurity_documental_2(self):
         self.assertEqual("16+ ", Scrapping.get_maturiy("https://www.netflix.com/title/80182553"))
+
+    def test_temporadas_community(self):
+        self.assertEqual(6, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70155589"))
+
+    def test_temporadas_house_of_cards(self):
+        self.assertEqual(6, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70178217"))
+
+    def test_temporadas_oitnb(self):  # orange is the new black
+        self.assertEqual(7, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70242311"))
+
+    def test_titulo_community(self):
+        self.assertEqual("Community", Scrapping.get_title("https://www.netflix.com/title/70155589"))
+
+    def test_id_community(self):
+        self.assertEqual("70155589", Scrapping.get_id("https://www.netflix.com/title/70155589"))
+
+    def test_genero_community(self):
+        self.assertEqual("Sitcoms", Scrapping.get_genre("https://www.netflix.com/title/70155589"))
+
+    def test_1_cantidad_episodios_rick_n_morty(self):
+        self.assertEqual(41, Serie.get_cantidad_episodios("https://www.netflix.com/title/80014749"))
+
+    def test_2_cantidad_episodios_rick_n_morty(self):
+        self.assertNotEqual(40, Serie.get_cantidad_episodios("https://www.netflix.com/title/80014749"))
+
+    def test_1_cantidad_episodios_community(self):
+        self.assertEqual(109, Serie.get_cantidad_episodios("https://www.netflix.com/title/70155589"))
+
+    def test_2_cantidad_episodios_community(self):
+        self.assertNotEqual(110, Serie.get_cantidad_episodios("https://www.netflix.com/title/70155589"))
+
+    def test_1_nombre_episodio_community(self):
+        self.assertEqual("Community", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589"))
+
+    def test_borrar_numero_episodio(self):
+        self.assertEqual("Community", Serie.borrar_numero_del_episodio("1. Community"))
+
+    def test_borrar_numero_episodio(self):
+        self.assertEqual("Spanish 101", Serie.borrar_numero_del_episodio("2. Spanish 101"))
