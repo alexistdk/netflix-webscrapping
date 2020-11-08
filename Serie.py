@@ -11,7 +11,6 @@ class Serie(Scrapping):
         cls.links = []
         for genero in cls.generos_series:
             cls.start_scrapping(genero)
-            cls.set_genero(genero)
 
     @staticmethod
     def get_cantidad_temporadas(url):
@@ -24,17 +23,8 @@ class Serie(Scrapping):
     @staticmethod
     def escribe_header():
         with open("peliculas.csv", mode='a') as f:
-            campos = ['Nombre',
-                      'Edad mínima',
-                      'Estreno',
-                      'ID',
-                      'Categoria',
-                      'Sinopsis',
-                      'Temporadas',
-                      'Cantidad de Capitulos',
-                      # 'Capitulos',
-                      'Link'
-                      ]
+            campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria', 'Sinopsis',
+                      'Temporadas', 'Cantidad de Capitulos', 'Link']
             writer = csv.DictWriter(f, fieldnames=campos)
             writer.writeheader()
             f.close()
