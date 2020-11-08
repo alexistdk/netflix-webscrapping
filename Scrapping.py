@@ -5,11 +5,7 @@ import re
 
 class Scrapping:
 
-    links = [["https://www.netflix.com/title/80177770", "https://www.netflix.com/title/80013775"]]
-
-    @classmethod
-    def set_genero(cls, url):
-        cls.genero = cls.get_genre(url)
+    links = []
 
     @classmethod
     def start_scrapping(cls, url):

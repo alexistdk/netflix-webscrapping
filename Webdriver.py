@@ -6,13 +6,6 @@ from Serie import *
 
 class Webdriver:
 
-    @staticmethod
-    def iniciar_sesion(driver):
-        driver.find_element_by_class_name('nfEmailPhoneControls').click()
-        driver.find_element_by_name('userLoginId').send_keys('catalinamurillo1154@outlook.com')
-        driver.find_element_by_name('password').send_keys('darwin1154')
-        driver.find_element_by_class_name('btn-small').click()
-
     @classmethod
     def web_driver(cls):
         firefox = webdriver.Firefox(executable_path=GeckoDriverManager().install())  # abre Firefox
@@ -24,6 +17,13 @@ class Webdriver:
         cls.clickea_genero(firefox, 'Series')
         cls.scrappea_generos_series(firefox)
         firefox.close()
+
+    @staticmethod
+    def iniciar_sesion(driver):
+        driver.find_element_by_class_name('nfEmailPhoneControls').click()
+        driver.find_element_by_name('userLoginId').send_keys('catalinamurillo1154@outlook.com')
+        driver.find_element_by_name('password').send_keys('darwin1154')
+        driver.find_element_by_class_name('btn-small').click()
 
     @classmethod
     def elige_usuario(cls, driver):

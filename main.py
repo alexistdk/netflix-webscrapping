@@ -15,5 +15,5 @@ def scrappear_series():
 
 if __name__ == "__main__":
     Webdriver.web_driver()
-    scrappear_peliculas()
-    scrappear_series()
+    # scrappear_peliculas()
+    # scrappear_series()

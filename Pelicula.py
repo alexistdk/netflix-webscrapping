@@ -10,7 +10,6 @@ class Pelicula(Scrapping):
     def scrapp_movies(cls):
         for genero in cls.generos_peliculas:
             cls.start_scrapping(genero)
-            cls.set_genero(genero)
 
     @staticmethod
     def escribe_header():
