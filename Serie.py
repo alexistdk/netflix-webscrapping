@@ -20,33 +20,30 @@ class Serie(Scrapping):
 
     @staticmethod
     def escribe_header():
-        with open("peliculas.csv", mode='a') as f:
+        with open("series.csv", mode='a') as f:
             campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria', 'Sinopsis',
-                      'Temporadas', 'Cantidad de Capitulos', 'Link']
+                      'Temporadas', 'Cantidad de Capitulos', 'URL']
             writer = csv.DictWriter(f, fieldnames=campos)
             writer.writeheader()
             f.close()
 
     @classmethod
-    def csv_series(cls):
-        cls.escribe_header()
-        for generos in cls.links:
-            for serie in generos:
-                with open("series.csv", mode='a') as f:
-                    campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria',
-                              'Sinopsis', 'Temporadas', 'Cantidad de Capitulos', 'Link']
-                    writer = csv.DictWriter(f, fieldnames=campos)
-                    writer.writerow({
-                        'Nombre': cls.get_title(serie),
-                        'Edad mínima': cls.get_maturity(serie),
-                        'Estreno': cls.get_year(serie),
-                        'ID': cls.get_id(serie),
-                        'Categoria': cls.get_genre(serie),
-                        'Sinopsis': cls.get_sinopsis(serie),
-                        'Temporadas': cls.get_cantidad_temporadas(serie),
-                        'Cantidad de Capitulos': cls.get_cantidad_episodios(serie),
-                        'Link': "https://netflix.com/title/" + cls.get_id(serie)
-                    })
+    def csv_series(cls, url):
+        with open("series.csv", mode='a') as f:
+            campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria',
+                      'Sinopsis', 'Temporadas', 'Cantidad de Capitulos', 'URL']
+            writer = csv.DictWriter(f, fieldnames=campos)
+            writer.writerow({
+                'Nombre': cls.get_title(url),
+                'Edad mínima': cls.get_maturity(url),
+                'Estreno': cls.get_year(url),
+                'ID': cls.get_id(url),
+                'Categoria': cls.get_genre(url),
+                'Sinopsis': cls.get_sinopsis(url),
+                'Temporadas': cls.get_cantidad_temporadas(url),
+                'Cantidad de Capitulos': cls.get_cantidad_episodios(url),
+                'URL': url
+            })
 
     @classmethod
     def get_cantidad_episodios(cls, url):

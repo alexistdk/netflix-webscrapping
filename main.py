@@ -1,23 +1,36 @@
 from Pelicula import *
 from Webdriver import *
 from Serie import *
+import pandas as pd
+from requests import get
 
 
-def scrappear_peliculas():
+def netflix():
+    Scrapping.netflix_header()
+    Scrapping.netflix_contenido()
+
+
+def scrappear_contenido():
     Pelicula.scrapp_movies()
-    Pelicula.csv_peliculas()
-
-
-def scrappear_series():
     Serie.scrapp_series()
-    Serie.csv_series()
+
+
+def escribir_csvs():
+    df = pd.read_csv("netflix-ar.csv")
+    Serie.escribe_header()
+    Pelicula.escribe_header()
+    for i in range(len(df.index)):
+        url = df.URL[i]
+        netflix = get(url)
+        soup = BeautifulSoup(netflix.content, 'lxml')
+        if soup.find_all('div', class_="season"):
+            Serie.csv_series(url)
+        else:
+            Pelicula.csv_peliculas(url)
 
 
 if __name__ == "__main__":
     Webdriver.web_driver()
-    Pelicula.scrapp_movies()
-    Serie.scrapp_series()
-    Scrapping.netflix_contenido()
-    # scrappear_peliculas()
-    # scrappear_series()
-
+    netflix()
+    scrappear_contenido()
+    escribir_csvs()

@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import csv
+import pandas
 
 
 class Scrapping:
@@ -85,7 +86,6 @@ class Scrapping:
 
     @classmethod
     def netflix_contenido(cls):
-        cls.netflix_header()
         for genero in cls.links:
             for contenido in genero:
                 with open("netflix-ar.csv", mode="a") as f:
