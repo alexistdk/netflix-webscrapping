@@ -16,7 +16,7 @@ class Serie(Scrapping):
         src = netflix.content
         soup = BeautifulSoup(src, 'lxml')
         temporadas = soup.find_all('div', class_="season")
-        return temporadas
+        return len(temporadas)
 
     @staticmethod
     def escribe_header():
