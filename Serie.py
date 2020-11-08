@@ -11,7 +11,15 @@ class Serie(Scrapping):
             cls.start_scrapping(genero)
 
     @staticmethod
-    def get_temporadas(url):
+    def get_temporadas(url, indice):
+        netflix = requests.get(url)
+        src = netflix.content
+        soup = BeautifulSoup(src, 'lxml')
+        temporadas = soup.find_all('div', class_="season")
+        return temporadas[indice]
+
+    @staticmethod
+    def get_cant_temporadas(url):
         netflix = requests.get(url)
         src = netflix.content
         soup = BeautifulSoup(src, 'lxml')
@@ -39,8 +47,8 @@ class Serie(Scrapping):
                 'Estreno': cls.get_year(url),
                 'ID': cls.get_id(url),
                 'Categoria': cls.get_genre(url),
-                'Sinopsis': cls.get_sinopsis(url),
-                'Temporadas': len(cls.get_temporadas(url)),
+                'Sinopsis serie': cls.get_sinopsis(url),
+                'Temporadas': cls.get_cant_temporadas(url),
                 'Cantidad de Capitulos': cls.get_cantidad_episodios(url),
                 'URL': url
             })
@@ -80,3 +88,13 @@ class Serie(Scrapping):
         soup = BeautifulSoup(netflix.content, 'lxml')
         sinopsis = soup.find_all('p', class_="season-synopsis")
         return sinopsis[indice].string
+
+    @classmethod
+    def get_info_temporada(cls, url):
+        serie = requests.get(url)
+        soup = BeautifulSoup(serie.content, 'lxml')
+        for temporada in soup.find_all('div', class_="season"):
+            sinopsis_temporada = temporada.div.p.text
+            print("\n", sinopsis_temporada)
+            for capitulo in temporada.find_all('div', class_="episode"):
+                print(capitulo.p.text)
