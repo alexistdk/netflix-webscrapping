@@ -48,13 +48,13 @@ class Peliculas(TestCase):
 class Series(TestCase):
 
     def test_temporadas_community(self):
-        self.assertEqual(6, len(Serie.get_temporadas("https://www.netflix.com/title/70155589")))
+        self.assertEqual(6, len(Serie.get_cant_temporadas("https://www.netflix.com/title/70155589")))
 
     def test_temporadas_house_of_cards(self):
-        self.assertEqual(6, len(Serie.get_temporadas("https://www.netflix.com/title/70178217")))
+        self.assertEqual(6, len(Serie.get_cant_temporadas("https://www.netflix.com/title/70178217")))
 
     def test_temporadas_oitnb(self):  # orange is the new black
-        self.assertEqual(7, len(Serie.get_temporadas("https://www.netflix.com/title/70242311")))
+        self.assertEqual(7, len(Serie.get_cant_temporadas("https://www.netflix.com/title/70242311")))
 
     def test_titulo_community(self):
         self.assertEqual("Community", Scrapping.get_title("https://www.netflix.com/title/70155589"))
