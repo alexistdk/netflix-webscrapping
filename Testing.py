@@ -3,7 +3,7 @@ from Pelicula import *
 from Serie import *
 
 
-class MyTestCase(TestCase):
+class Peliculas(TestCase):
 
     def test_anio_estreno_back_to_the_future(self):
         anio = Scrapping.get_year("https://www.netflix.com/title/60010110")
@@ -44,14 +44,17 @@ class MyTestCase(TestCase):
     def test_madurity_documental_2(self):
         self.assertEqual("16+ ", Scrapping.get_maturity("https://www.netflix.com/title/80182553"))
 
+
+class Series(TestCase):
+
     def test_temporadas_community(self):
-        self.assertEqual(6, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70155589"))
+        self.assertEqual(6, len(Serie.get_temporadas("https://www.netflix.com/title/70155589")))
 
     def test_temporadas_house_of_cards(self):
-        self.assertEqual(6, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70178217"))
+        self.assertEqual(6, len(Serie.get_temporadas("https://www.netflix.com/title/70178217")))
 
     def test_temporadas_oitnb(self):  # orange is the new black
-        self.assertEqual(7, Serie.get_cantidad_temporadas("https://www.netflix.com/title/70242311"))
+        self.assertEqual(7, len(Serie.get_temporadas("https://www.netflix.com/title/70242311")))
 
     def test_titulo_community(self):
         self.assertEqual("Community", Scrapping.get_title("https://www.netflix.com/title/70155589"))
@@ -68,14 +71,23 @@ class MyTestCase(TestCase):
     def test_2_cantidad_episodios_rick_n_morty(self):
         self.assertNotEqual(40, Serie.get_cantidad_episodios("https://www.netflix.com/title/80014749"))
 
-    def test_1_cantidad_episodios_community(self):
+    def test_3_cantidad_episodios_community(self):
         self.assertEqual(109, Serie.get_cantidad_episodios("https://www.netflix.com/title/70155589"))
 
-    def test_2_cantidad_episodios_community(self):
+    def test_4_cantidad_episodios_community(self):
         self.assertNotEqual(110, Serie.get_cantidad_episodios("https://www.netflix.com/title/70155589"))
 
     def test_1_nombre_episodio_community(self):
         self.assertEqual("Community", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589", 0))
+
+    def test_2_nombre_episodio_community(self):
+        self.assertEqual("Spanish 101", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589", 1))
+
+    def test_3_nombre_episodio_community(self):
+        self.assertNotEqual("Community", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589", 1))
+
+    def test_4_nombre_episodio_community(self):
+        self.assertNotEqual("Spanish 101", Serie.get_nombre_episodio("https://www.netflix.com/title/70155589", 0))
 
     def test_borrar_numero_episodio(self):
         self.assertEqual("Community", Serie.borrar_numero_del_episodio("1. Community"))
