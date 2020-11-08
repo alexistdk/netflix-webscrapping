@@ -1,5 +1,4 @@
 from Scrapping import *
-import csv
 
 
 class Serie(Scrapping):
@@ -8,7 +7,6 @@ class Serie(Scrapping):
 
     @classmethod
     def scrapp_series(cls):
-        cls.links = []
         for genero in cls.generos_series:
             cls.start_scrapping(genero)
 

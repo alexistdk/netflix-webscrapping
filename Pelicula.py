@@ -1,5 +1,4 @@
 from Scrapping import *
-import csv
 
 
 class Pelicula(Scrapping):
