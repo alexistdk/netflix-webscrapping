@@ -11,14 +11,6 @@ class Serie(Scrapping):
             cls.start_scrapping(genero)
 
     @staticmethod
-    def get_temporadas(url, indice):
-        netflix = requests.get(url)
-        src = netflix.content
-        soup = BeautifulSoup(src, 'lxml')
-        temporadas = soup.find_all('div', class_="season")
-        return temporadas[indice]
-
-    @staticmethod
     def get_cant_temporadas(url):
         netflix = requests.get(url)
         src = netflix.content
@@ -29,8 +21,9 @@ class Serie(Scrapping):
     @staticmethod
     def escribe_header():
         with open("series.csv", mode='a') as f:
-            campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria', 'Sinopsis',
-                      'Temporadas', 'Cantidad de Capitulos', 'URL']
+            campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria',
+                      'Sinopsis', 'Temporadas', 'Cantidad de Capitulos',
+                      'Sinospsis de cada temporada y capitulos', 'URL']
             writer = csv.DictWriter(f, fieldnames=campos)
             writer.writeheader()
             f.close()
@@ -39,7 +32,8 @@ class Serie(Scrapping):
     def csv_series(cls, url):
         with open("series.csv", mode='a') as f:
             campos = ['Nombre', 'Edad mínima', 'Estreno', 'ID', 'Categoria',
-                      'Sinopsis', 'Temporadas', 'Cantidad de Capitulos', 'URL']
+                      'Sinopsis serie', 'Temporadas', 'Cantidad de Capitulos',
+                      'Info de cada temporada', 'URL']
             writer = csv.DictWriter(f, fieldnames=campos)
             writer.writerow({
                 'Nombre': cls.get_title(url),
@@ -50,8 +44,10 @@ class Serie(Scrapping):
                 'Sinopsis serie': cls.get_sinopsis(url),
                 'Temporadas': cls.get_cant_temporadas(url),
                 'Cantidad de Capitulos': cls.get_cantidad_episodios(url),
+                'Info de cada temporada': cls.get_info_temporada(url),
                 'URL': url
             })
+            f.close()
 
     @classmethod
     def get_cantidad_episodios(cls, url):
@@ -76,25 +72,18 @@ class Serie(Scrapping):
         return ' '.join(nombre)
 
     @classmethod
-    def get_sinopsis_episodio(cls, url, indice):
-        netflix = requests.get(url)
-        soup = BeautifulSoup(netflix.content, 'lxml')
-        sinopsis = soup.find_all('p', class_="epsiode-synopsis")
-        print(sinopsis[indice].string)
-
-    @classmethod
-    def get_sinopsis_temporada(cls, url, indice):
-        netflix = requests.get(url)
-        soup = BeautifulSoup(netflix.content, 'lxml')
-        sinopsis = soup.find_all('p', class_="season-synopsis")
-        return sinopsis[indice].string
-
-    @classmethod
     def get_info_temporada(cls, url):
         serie = requests.get(url)
         soup = BeautifulSoup(serie.content, 'lxml')
+        info_temporada = []
+        capitulos = []
         for temporada in soup.find_all('div', class_="season"):
-            sinopsis_temporada = temporada.div.p.text
-            print("\n", sinopsis_temporada)
+            sinopsis_temporada = temporada.div.p.string
             for capitulo in temporada.find_all('div', class_="episode"):
-                print(capitulo.p.text)
+                capitulos.append(capitulo.p.string)
+            info_temporada.append({
+                'Sinopsis de la Temporada': sinopsis_temporada,
+                'Sinopsis de los capitulos': capitulos
+            })
+            capitulos = []
+        return info_temporada

@@ -31,7 +31,6 @@ def escribir_csvs():
 
 if __name__ == "__main__":
     Webdriver.web_driver()
-    netflix()
     scrappear_contenido()
+    netflix()
     escribir_csvs()
-
