@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import csv
+import pandas
 
 
 class Scrapping:
@@ -73,3 +75,24 @@ class Scrapping:
         soup = BeautifulSoup(netflix.text, 'lxml')
         maturity = soup.find('span', class_="maturity-number")
         return maturity.string
+
+    @staticmethod
+    def netflix_header():
+        with open("netflix-ar.csv", mode='a') as f:
+            header = ["Título", "ID", "URL"]
+            writer = csv.DictWriter(f, fieldnames=header)
+            writer.writeheader()
+            f.close()
+
+    @classmethod
+    def netflix_contenido(cls):
+        for genero in cls.links:
+            for contenido in genero:
+                with open("netflix-ar.csv", mode="a") as f:
+                    campos = ["Título", "ID", "URL"]
+                    writer = csv.DictWriter(f, fieldnames=campos)
+                    writer.writerow({
+                        "Título": cls.get_title(contenido),
+                        "ID": cls.get_id(contenido),
+                        "URL": "https://netflix.com/title/" + cls.get_id(contenido)
+                    })
