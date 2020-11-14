@@ -21,8 +21,8 @@ class Webdriver:
     @staticmethod
     def iniciar_sesion(driver):
         driver.find_element_by_class_name('nfEmailPhoneControls').click()
-        driver.find_element_by_name('userLoginId').send_keys('catalinamurillo1154@outlook.com')
-        driver.find_element_by_name('password').send_keys('darwin1154')
+        driver.find_element_by_name('userLoginId').send_keys()
+        driver.find_element_by_name('password').send_keys()
         driver.find_element_by_class_name('btn-small').click()
 
     @classmethod
